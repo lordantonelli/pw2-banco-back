@@ -1,5 +1,7 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
 import { UpdateBankBranchDto } from './dto/update-bank-branch.dto';
@@ -7,13 +9,15 @@ import { BankBranch } from './entities/bank-branch.entity';
 
 @Injectable()
 export class BankBranchsService {
+  constructor(@InjectRepository(BankBranch) private repository: Repository<BankBranch>) {}
+
   create(createBankBranchDto: CreateBankBranchDto): Promise<BankBranch> {
     const bankBranch: BankBranch = new BankBranch();
     bankBranch.name = createBankBranchDto.name;
     bankBranch.code = createBankBranchDto.code;
     bankBranch.isActive = true;
 
-    return bankBranch.save();
+    return this.repository.save(bankBranch);
   }
 
   findAll() {
@@ -21,7 +25,7 @@ export class BankBranchsService {
   }
 
   async findOne(id: number): Promise<BankBranch> {
-    const bankBranch = await BankBranch.findOneBy({ id });
+    const bankBranch = await this.repository.findOneBy({ id });
 
     if (!bankBranch) {
       throw new RecordNotFoundException();
@@ -35,7 +39,7 @@ export class BankBranchsService {
   }
 
   async remove(id: number): Promise<boolean> {
-    const bankBranch = await BankBranch.delete(id);
+    const bankBranch = await this.repository.delete(id);
 
     if (!bankBranch?.affected) {
       throw new RecordNotFoundException();
