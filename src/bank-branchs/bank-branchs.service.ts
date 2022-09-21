@@ -20,7 +20,7 @@ export class BankBranchsService {
     return `This action returns all bankBranchs`;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<BankBranch> {
     const bankBranch = await BankBranch.findOneBy({ id });
 
     if (!bankBranch) {
@@ -34,7 +34,13 @@ export class BankBranchsService {
     return `This action updates a #${id} bankBranch`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bankBranch`;
+  async remove(id: number): Promise<boolean> {
+    const bankBranch = await BankBranch.delete(id);
+
+    if (!bankBranch?.affected) {
+      throw new RecordNotFoundException();
+    }
+
+    return true;
   }
 }
