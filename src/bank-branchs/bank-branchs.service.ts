@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
 import { UpdateBankBranchDto } from './dto/update-bank-branch.dto';
@@ -20,8 +21,13 @@ export class BankBranchsService {
     return this.repository.save(bankBranch);
   }
 
-  findAll() {
-    return `This action returns all bankBranchs`;
+  findAll(options: IPaginationOptions, search?: string): Promise<Pagination<BankBranch>> {
+    const where: FindOptionsWhere<BankBranch> = {};
+    if (search) {
+      where.name = ILike(`%${search}%`);
+    }
+
+    return paginate<BankBranch>(this.repository, options, { where });
   }
 
   async findOne(id: number): Promise<BankBranch> {

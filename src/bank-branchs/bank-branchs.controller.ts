@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 
 import { BankBranchsService } from './bank-branchs.service';
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
@@ -14,8 +14,12 @@ export class BankBranchsController {
   }
 
   @Get()
-  findAll() {
-    return this.bankBranchsService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('search') search: string,
+  ) {
+    return this.bankBranchsService.findAll({ page, limit }, search);
   }
 
   @Get(':id')
