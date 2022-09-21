@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
 import { UpdateBankBranchDto } from './dto/update-bank-branch.dto';
+import { BankBranch } from './entities/bank-branch.entity';
 
 @Injectable()
 export class BankBranchsService {
-  create(createBankBranchDto: CreateBankBranchDto) {
-    return 'This action adds a new bankBranch';
+  create(createBankBranchDto: CreateBankBranchDto): Promise<BankBranch> {
+    const bankBranch: BankBranch = new BankBranch();
+    bankBranch.name = createBankBranchDto.name;
+    bankBranch.code = createBankBranchDto.code;
+    bankBranch.isActive = true;
+
+    return bankBranch.save();
   }
 
   findAll() {
