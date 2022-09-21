@@ -24,8 +24,8 @@ export class BankBranchsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBankBranchDto: UpdateBankBranchDto) {
-    return this.bankBranchsService.update(+id, updateBankBranchDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateBankBranchDto: UpdateBankBranchDto) {
+    return this.bankBranchsService.update(id, updateBankBranchDto);
   }
 
   @Delete(':id')

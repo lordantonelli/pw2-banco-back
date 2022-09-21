@@ -34,8 +34,14 @@ export class BankBranchsService {
     return bankBranch;
   }
 
-  update(id: number, updateBankBranchDto: UpdateBankBranchDto) {
-    return `This action updates a #${id} bankBranch`;
+  async update(id: number, updateBankBranchDto: UpdateBankBranchDto): Promise<BankBranch> {
+    await this.repository.update(id, updateBankBranchDto);
+    const bankBranch = await this.repository.findOneBy({ id });
+    if (!bankBranch) {
+      throw new RecordNotFoundException();
+    }
+
+    return bankBranch;
   }
 
   async remove(id: number): Promise<boolean> {
