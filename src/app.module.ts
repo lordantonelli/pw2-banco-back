@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BankBranchsModule } from './bank-branchs/bank-branchs.module';
 
 @Module({
   imports: [
+    BankBranchsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/banco',
