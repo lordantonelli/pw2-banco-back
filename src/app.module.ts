@@ -11,7 +11,7 @@ import { BankBranchsModule } from './bank-branchs/bank-branchs.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/banco',
-      entities: [__dirname + '/**/*.entity.{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
   ],
