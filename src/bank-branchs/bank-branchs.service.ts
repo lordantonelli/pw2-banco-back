@@ -1,3 +1,4 @@
+import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
@@ -19,8 +20,14 @@ export class BankBranchsService {
     return `This action returns all bankBranchs`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bankBranch`;
+  async findOne(id: number) {
+    const bankBranch = await BankBranch.findOneBy({ id });
+
+    if (!bankBranch) {
+      throw new RecordNotFoundException();
+    }
+
+    return bankBranch;
   }
 
   update(id: number, updateBankBranchDto: UpdateBankBranchDto) {

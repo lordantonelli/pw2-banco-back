@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+
 import { BankBranchsService } from './bank-branchs.service';
 import { CreateBankBranchDto } from './dto/create-bank-branch.dto';
 import { UpdateBankBranchDto } from './dto/update-bank-branch.dto';
@@ -18,8 +19,8 @@ export class BankBranchsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bankBranchsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.bankBranchsService.findOne(id);
   }
 
   @Patch(':id')
