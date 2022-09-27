@@ -19,7 +19,9 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@exceptions": ["src/exceptions"],
-      "@exceptions/*": ["src/exceptions/*"]
+      "@exceptions/*": ["src/exceptions/*"],
+      "@shared": ["src/shared"],
+      "@shared/*": ["src/shared/*"]
     }
   }
 }

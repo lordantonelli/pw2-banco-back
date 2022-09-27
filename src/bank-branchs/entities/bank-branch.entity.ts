@@ -1,10 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from '@shared/entities';
+import { Column, Entity } from 'typeorm';
 
 @Entity()
-export class BankBranch {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class BankBranch extends BaseEntity {
   @Column({ length: 255 })
   name: string;
 
@@ -13,10 +11,4 @@ export class BankBranch {
 
   @Column()
   isActive: boolean;
-
-  @CreateDateColumn()
-  dateCreated: Date;
-
-  @UpdateDateColumn()
-  lastUpdated: Date;
 }
