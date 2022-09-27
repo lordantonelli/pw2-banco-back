@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BankBranchsModule } from './bank-branchs/bank-branchs.module';
 import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
       synchronize: true,
     }),
     SharedModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
