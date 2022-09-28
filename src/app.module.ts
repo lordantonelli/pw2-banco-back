@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from './auth/auth.module';
 import { BankBranchsModule } from './bank-branchs/bank-branchs.module';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    BankBranchsModule,
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/banco.db',
@@ -15,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
     SharedModule,
+    BankBranchsModule,
     AuthModule,
   ],
   controllers: [],
