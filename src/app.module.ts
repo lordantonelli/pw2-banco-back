@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/banco.db',
