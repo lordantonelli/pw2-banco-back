@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,10 +14,9 @@ export class UsersService {
   constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    let user = this.repository.create(createUserDto);
-    user = await this.repository.save(user);
-    user.password = null;
-    return user;
+    const user = this.repository.create(createUserDto);
+    const { password, ...result } = await this.repository.save(user);
+    return result as User;
   }
 
   findAll(options: IPaginationOptions, search?: string): Promise<Pagination<User>> {
@@ -38,14 +38,19 @@ export class UsersService {
     return bankBranch;
   }
 
-  async findByEmail(email: string): Promise<User> {
-    const bankBranch = await this.repository.findOneBy({ email });
+  async findByEmail(email: string, includePassowrd: boolean = false): Promise<User> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email })
+      .getOne();
 
-    if (!bankBranch) {
-      throw new RecordNotFoundException();
+    if (includePassowrd) {
+      return user;
+    } else {
+      const { password, ...result } = user;
+      return result as User;
     }
-
-    return bankBranch;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
