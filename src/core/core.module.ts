@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
 
-@Module({})
+import { StatesModule } from './states/states.module';
+
+@Module({
+  imports: [StatesModule],
+})
 export class CoreModule {}
