@@ -1,0 +1,6 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "prettier.printWidth": 120,
+  "prettier.endOfLine": "auto"
+}
