@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/shared/entities/base.entity';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { hashSync } from 'bcrypt';
 
 @Entity()
 export class User extends BaseEntity {
@@ -22,4 +23,11 @@ export class User extends BaseEntity {
   })
   @Column({ select: false })
   password?: string;
+
+  @BeforeInsert()
+  hashPassword() {
+    if (this.password) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
 }
